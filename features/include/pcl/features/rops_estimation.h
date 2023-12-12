@@ -116,6 +116,13 @@ namespace pcl
       void
       getTriangles (std::vector <pcl::Vertices>& triangles) const;
 
+//       std::vector<Eigen:Matrix3f>
+      void
+      getLocalReferenceFrames(std::vector <Eigen::Matrix3f> &ReferenceFrames);
+
+      //TODO Brief
+//       void
+//       compute (PointCloudOut &output, Eigen::Matrix3f &LRFs);
     private:
 
       /** \brief Abstract feature estimation method.
@@ -221,6 +228,9 @@ namespace pcl
 
       /** \brief Stores the set of triangles for each point. Its purpose is to improve performance. */
       std::vector <std::vector <unsigned int> > triangles_of_the_point_;
+
+      //TODO Brief
+      std::vector <Eigen::Matrix3f> LRFs;
 
     public:
       PCL_MAKE_ALIGNED_OPERATOR_NEW

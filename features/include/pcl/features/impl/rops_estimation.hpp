@@ -128,6 +128,21 @@ pcl::ROPSEstimation <PointInT, PointOutT>::getTriangles (std::vector <pcl::Verti
   triangles = triangles_;
 }
 
+// template <typename PointInT, typename PointOutT> void
+// compute (PointCloudOut &output, vector<Eigen::Matrix3f> &LRFs)
+// {
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointInT, typename PointOutT> void
+pcl::ROPSEstimation <PointInT, PointOutT>::getLocalReferenceFrames (
+        std::vector <Eigen::Matrix3f> &ReferenceFrames){
+    ReferenceFrames.insert(ReferenceFrames.begin(), LRFs.begin(), LRFs.end());
+    return;
+}
+
+// 
+// }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT> void
 pcl::ROPSEstimation <PointInT, PointOutT>::computeFeature (PointCloudOut &output)
@@ -146,6 +161,8 @@ pcl::ROPSEstimation <PointInT, PointOutT>::computeFeature (PointCloudOut &output
   output.clear ();
   output.reserve (number_of_points);
 
+//   std::vector<Eigen::Matrix3f> hans;
+
   for (const auto& idx: *indices_)
   {
     std::set <unsigned int> local_triangles;
@@ -154,6 +171,8 @@ pcl::ROPSEstimation <PointInT, PointOutT>::computeFeature (PointCloudOut &output
 
     Eigen::Matrix3f lrf_matrix;
     computeLRF ((*input_)[idx], local_triangles, lrf_matrix);
+
+    LRFs.push_back(lrf_matrix);
 
     PointCloudIn transformed_cloud;
     transformCloud ((*input_)[idx], lrf_matrix, local_points, transformed_cloud);
